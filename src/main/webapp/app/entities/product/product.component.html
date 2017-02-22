@@ -1,0 +1,72 @@
+<div>
+    <h2>
+        <span jhiTranslate="blogApp.product.home.title">Products</span>
+        <button class="btn btn-primary float-right create-product" [routerLink]="['/', { outlets: { popup: ['product-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="blogApp.product.home.createLabel">
+            Create new Product
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="products">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="title"><span jhiTranslate="blogApp.product.title">Title</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="keywords"><span jhiTranslate="blogApp.product.keywords">Keywords</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="blogApp.product.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rating"><span jhiTranslate="blogApp.product.rating">Rating</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dateAdded"><span jhiTranslate="blogApp.product.dateAdded">Date Added</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dateModified"><span jhiTranslate="blogApp.product.dateModified">Date Modified</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="wishlist.id"><span jhiTranslate="blogApp.product.wishlist">Wishlist</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let product of products ;trackBy: trackId">
+                <td><a [routerLink]="['../product', product.id ]">{{product.id}}</a></td>
+                <td>{{product.title}}</td>
+                <td>{{product.keywords}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.rating}}</td>
+                <td>{{product.dateAdded | date:'mediumDate'}}</td>
+                <td>{{product.dateModified | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="product.wishlist">
+                        <a [routerLink]="['../wishlist', product.wishlist?.id ]" >{{product.wishlist?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../product', product.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

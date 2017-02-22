@@ -1,0 +1,51 @@
+
+<div *ngIf="product">
+    <h2><span jhiTranslate="blogApp.product.detail.title">Product</span> {{product.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.product.title">Title</span></dt>
+        <dd>
+            <span>{{product.title}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.keywords">Keywords</span></dt>
+        <dd>
+            <span>{{product.keywords}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.description">Description</span></dt>
+        <dd>
+            <span>{{product.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.rating">Rating</span></dt>
+        <dd>
+            <span>{{product.rating}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.dateAdded">Date Added</span></dt>
+        <dd>
+            <span>{{product.dateAdded | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.dateModified">Date Modified</span></dt>
+        <dd>
+            <span>{{product.dateModified | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.product.wishlist">Wishlist</span></dt>
+        <dd>
+            <div *ngIf="product.wishlist">
+                <a [routerLink]="['/wishlist', product.wishlist?.id]">{{product.wishlist?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

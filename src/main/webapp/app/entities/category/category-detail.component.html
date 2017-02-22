@@ -1,0 +1,57 @@
+
+<div *ngIf="category">
+    <h2><span jhiTranslate="blogApp.category.detail.title">Category</span> {{category.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="blogApp.category.linky">Linky</span></dt>
+        <dd>
+            <span>{{category.linky}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.description">Description</span></dt>
+        <dd>
+            <span>{{category.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.sortOrder">Sort Order</span></dt>
+        <dd>
+            <span>{{category.sortOrder}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.dateAdded">Date Added</span></dt>
+        <dd>
+            <span>{{category.dateAdded | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.dateModified">Date Modified</span></dt>
+        <dd>
+            <span>{{category.dateModified | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'blogApp.CategoryStatus.' + category.status}}">{{category.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.parent">Parent</span></dt>
+        <dd>
+            <div *ngIf="category.parent">
+                <a [routerLink]="['/category', category.parent?.id]">{{category.parent?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="blogApp.category.product">Product</span></dt>
+        <dd>
+            <span *ngFor="let product of category.products; let last = last">
+                <a [routerLink]="['/product', product?.id ]">{{product.title}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'category/'+ category.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
